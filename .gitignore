@@ -1,0 +1,19 @@
+# Dependencies
+**/node_modules/
+
+# Environment
+.env
+**/.env
+
+# Build
+dist/
+build/
+
+# Logs
+*.log
+
+# Prisma generated client (if generated into a custom folder)
+server/generated/
+
+# Editor/AI agent files
+server/.agents/
