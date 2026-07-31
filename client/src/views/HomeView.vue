@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-gray-50 font-sans text-gray-900">
     <main class="max-w-7xl mx-auto flex flex-col md:flex-row pt-8 px-4 gap-8">
-      
+
       <aside class="hidden lg:block w-1/4 sticky top-8 h-fit">
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <div class="p-4 border-b border-gray-100 bg-gray-50/50">
@@ -10,7 +10,7 @@
             </h2>
           </div>
           <ul class="p-2 space-y-1">
-            <li v-for="item in menuItems" :key="item.label" 
+            <li v-for="item in menuItems" :key="item.label"
                 class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 hover:bg-gray-100 cursor-pointer group">
               <i :class="[item.icon, 'text-gray-500 group-hover:text-[#004182] w-5']"></i>
               <span class="text-sm font-medium text-gray-600 group-hover:text-[#004182] capitalize">{{ item.label }}</span>
@@ -18,9 +18,8 @@
           </ul>
         </div>
       </aside>
-
       <section class="flex-1 max-w-2xl space-y-6">
-        
+
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
           <div class="flex gap-4">
             <div class="w-10 h-10 rounded-full bg-gray-200 flex-shrink-0"></div>
@@ -68,28 +67,28 @@
         </div>
 
 
-        
-       
+
+
         <div v-for="(post, index) in allposts" :key="index" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden animate-fade-in">
           <div class="p-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
 
-          
-              <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-100 to-[#004182] flex items-center justify-center text-white font-bold">
-                {{ post.id_user?.slice(0,1).toUpperCase() || 'U' }}
+
+              <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-100 to-[#97a2ad] flex items-center justify-center text-white font-bold">
+              <img width="70" class="rounded-full" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/3840px-User-avatar.svg.png"/>
               </div>
 
 
               <div>
-                
+
                 <h3 class="font-bold text-gray-900 leading-tight">
                   {{ post.username }}
                 </h3>
 
-                <span class="text-xs text-gray-500">Just now • <i class="fa-solid fa-earth-americas"></i></span>
+                <span class="text-xs text-gray-500">33 min • <i class="fa-solid fa-earth-americas"></i></span>
               </div>
             </div>
-            
+
             <div class="relative group">
               <button class="p-2 hover:bg-gray-100 rounded-full text-gray-400"><i class="fa-solid fa-ellipsis-h"></i></button>
               <div class="hidden group-hover:block absolute right-0 w-32 bg-white border border-gray-100 shadow-xl rounded-lg z-20">
@@ -100,7 +99,7 @@
           </div>
 
 
-     
+
 
 
 
@@ -173,10 +172,12 @@ const loading = ref(false);
 const error = ref(null);
 const allposts = ref([]);
 
-const username = ref([]);
 
+import { provide } from "vue";
 
+const user = ref(JSON.parse(localStorage.getItem("user")));
 
+provide("username", user.value?.username);
 
 
 
@@ -191,7 +192,7 @@ const menuItems = [
 ];
 const friends = ['Ahmed Li', 'Meissa Lane', 'Fouzi Abdelrahim'];
 
-// LOGIC PRESERVED
+
 const submitPost = async () => {
   if (!content.value.trim() && !media.value) {
     alert('Please add some content or media to your post');
@@ -310,4 +311,4 @@ const likePost = async (postId) => {
 }
 </style>
 
- 
+

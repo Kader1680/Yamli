@@ -1,6 +1,6 @@
 # 🌐 Social Media Platform
 
-A full-stack social media application built using **Node.js**, **Express**, **MongoDB**, and **Vue.js**. This app allows users to register, log in, create posts (text/images), like and comment, follow/unfollow users, and more.
+A full-stack social media application built using **Node.js**, **Express**, **MYSQL**, and **Vue.js**. This app allows users to register, log in, create posts (text/images), like and comment, follow/unfollow users, and more.
 
 ---
 
@@ -28,47 +28,66 @@ A full-stack social media application built using **Node.js**, **Express**, **Mo
 - 🎨 Responsive UI using Vue.js
 
 ---
-
-## 🛠️ Tech Stack
-
-### Frontend
-
-- [Vue.js](https://vuejs.org/) - SPA Framework
-- [Axios](https://axios-http.com/) - HTTP client
-- [Vue Router](https://router.vuejs.org/) - Routing
-
-### Backend
-
-- [Node.js](https://nodejs.org/)
-- [Express.js](https://expressjs.com/)
-- [MongoDB](https://www.mongodb.com/) with [Mongoose](https://mongoosejs.com/)
-- [JWT](https://jwt.io/) - Authentication
-- [Multer](https://github.com/expressjs/multer) - File uploads
-
----
-
-## 🖼️ Screenshots
-
-> *(Add screenshots here if available)*  
-> Example:
-> ![Home Feed](screenshots/home.png)
-> ![User Profile](screenshots/profile.png)
-
----
-
-## 🧰 Getting Started
-
-### Prerequisites
-
-- Node.js and npm
-- MongoDB (local or Atlas)
-- Git
-
-### Installation
-
-#### 1. Clone the Repository
-
-```bash
-git clone https://github.com/your-username/social-media-app.git
-cd social-media-app
- 
+server/
+│
+├── prisma/
+│   ├── migrations/
+│   └── schema.prisma
+│
+├── src/
+│   ├── config/
+│   │   ├── prisma.js
+│   │   └── db.js
+│   │
+│   ├── controllers/
+│   │   ├── auth.controller.js
+│   │   ├── user.controller.js
+│   │   ├── post.controller.js
+│   │   ├── comment.controller.js
+│   │   ├── follow.controller.js
+│   │   └── message.controller.js
+│   │
+│   ├── services/
+│   │   ├── auth.service.js
+│   │   ├── user.service.js
+│   │   ├── post.service.js
+│   │   └── ...
+│   │
+│   ├── routes/
+│   │   ├── auth.routes.js
+│   │   ├── user.routes.js
+│   │   ├── post.routes.js
+│   │   ├── comment.routes.js
+│   │   └── index.js
+│   │
+│   ├── middleware/
+│   │   ├── auth.js
+│   │   ├── error.js
+│   │   └── upload.js
+│   │
+│   ├── validators/
+│   │   ├── auth.validator.js
+│   │   ├── user.validator.js
+│   │   └── post.validator.js
+│   │
+│   ├── utils/
+│   │   ├── jwt.js
+│   │   ├── password.js
+│   │   ├── pagination.js
+│   │   └── response.js
+│   │
+│   ├── sockets/
+│   │   ├── chat.socket.js
+│   │   └── index.js
+│   │
+│   ├── uploads/
+│   │   ├── avatars/
+│   │   ├── covers/
+│   │   └── posts/
+│   │
+│   ├── app.js
+│   └── server.js
+│
+├── .env
+├── package.json
+└── README.md

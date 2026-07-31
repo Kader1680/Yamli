@@ -1,21 +1,20 @@
 <template>
   <nav class="sticky top-0 z-50 bg-[#004182] shadow-xl border-b border-white/10 px-4 py-3 md:px-8">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
-      
+
       <div class="flex items-center gap-2">
         <router-link to="/" class="text-2xl font-black tracking-tighter text-[#00bfff] flex items-center gap-2">
-          <div class="bg-white/10 p-1.5 rounded-lg">
-            <i class="fa-solid fa-bolt-lightning text-white text-sm"></i>
-          </div>
-          Pimpchat
+
+          <img width="70" src="/yamli.png" alt="Logo" />
+
         </router-link>
       </div>
 
       <ul class="hidden md:flex items-center gap-1">
         <template v-if="isAuthenticated">
           <li v-for="link in navLinks" :key="link.path">
-            <router-link 
-              :to="link.path" 
+            <router-link
+              :to="link.path"
               class="nav-item flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all hover:bg-white/10 hover:text-[#00bfff]"
               active-class="active-nav"
             >
@@ -23,29 +22,28 @@
               {{ link.name }}
             </router-link>
           </li>
-          
+
           <li class="ml-4 pl-4 border-l border-white/20">
-            <router-link 
-              :to="`/profil/${userId}`" 
+            <router-link
+              :to="`/profil/${userId}`"
               class="flex items-center gap-3 group"
             >
               <div class="relative">
-                <img 
-                  :src="profile?.profilePicture || defaultProfile" 
-                  class="w-10 h-10 rounded-full border-2 border-[#00bfff] object-cover group-hover:scale-105 transition-transform"
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/3840px-User-avatar.svg.png"
+                  class="w-10 h-10 rounded-full border-2 bg-white border-[#ffffff] object-cover group-hover:scale-105 transition-transform"
                 />
-                <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-[#004182] rounded-full"></span>
               </div>
               <div class="hidden lg:block text-left">
-                <p class="text-xs font-bold leading-none text-white">{{ profile?.first_name || 'User' }}</p>
-                <p class="text-[10px] text-gray-300">Online</p>
+                <p class="text-xs font-bold leading-none text-white">{{ user?.username || 'user' }}</p>
+
               </div>
             </router-link>
           </li>
 
           <li>
             <button @click="logout" class="ml-2 p-2 text-white/70 hover:text-red-400 transition-colors">
-              <i class="fa-solid fa-power-off text-lg"></i>
+              Logout
             </button>
           </li>
         </template>
@@ -77,7 +75,7 @@
               </li>
               <li @click="menuOpen = false">
                  <router-link :to="`/profil/${userId}`" class="flex items-center justify-center gap-3 text-[#00bfff]">
-                   <img :src="profile?.profilePicture || defaultProfile" class="w-8 h-8 rounded-full border border-white" />
+                   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/3840px-User-avatar.svg.png" class="w-8 h-8 rounded-full border border-white" />
                    My Profile
                  </router-link>
               </li>
@@ -106,6 +104,14 @@ const defaultProfile = "https://ui-avatars.com/api/?background=00bfff&color=0041
 const user = ref(JSON.parse(localStorage.getItem("user")) || {});
 const profile = ref({});
 const menuOpen = ref(false);
+
+import { provide } from "vue";
+
+
+
+provide("username", user.value?.username);
+
+
 
 const navLinks = [
   { name: 'Home', path: '/', icon: 'fa-solid fa-house' },

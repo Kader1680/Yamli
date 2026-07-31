@@ -14,19 +14,19 @@
       <div class="max-w-6xl mx-auto px-4 pb-6">
         <div class="flex flex-col md:flex-row items-center md:items-end -mt-16 md:-mt-20 gap-6">
           <div class="relative group">
-            
+
             <!-- <img
               :src="profile.profilePicture || defaultProfile"
               class="w-32 h-32 md:w-44 md:h-44 rounded-full border-4 border-white shadow-lg object-cover bg-white"
               alt="Profile"
             /> -->
 
-            <img
-  :src="profile.avatar 
-    ? `http://localhost:3000${profile.avatar}` 
-    : defaultProfile"
-  class="w-32 h-32 md:w-44 md:h-44 rounded-full"
-/>
+                      <img
+            :src="profile.avatar
+              ? `http://localhost:3000${profile.avatar}`
+              : defaultProfile"
+            class="w-32 h-32 md:w-44 md:h-44 rounded-full"
+          />
 
 
 
@@ -55,7 +55,7 @@
     </div>
 
     <div class="max-w-6xl mx-auto px-4 mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-      
+
       <aside class="space-y-6">
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
           <h3 class="text-lg font-bold text-gray-900 mb-4">Intro</h3>
@@ -138,7 +138,7 @@
               <i class="fa-solid fa-xmark text-xl"></i>
             </button>
           </div>
-          
+
           <form @submit.prevent="saveProfile" class="p-8 space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div class="space-y-1">
@@ -230,8 +230,8 @@ onMounted(async () => {
   try {
     const res = await axios.get(`http://localhost:3000/profil/${user.value.id}`);
     if (res.data) profile.value = res.data;
-    
-    
+
+
   } catch (err) {
     console.error("Error loading profile:", err);
   }

@@ -1,128 +1,180 @@
-const User = require('../model/User');
-const jwt = require('jsonwebtoken');
-const { promisify } = require('util');
+import prisma from "../config/prisma.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const signToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE
-  });
+  return jwt.sign(
+    { id },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRE,
+    }
+  );
 };
 
- 
-
-exports.register = async (req, res, next) => {
+export const register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const {
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+    } = req.body;
 
-    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email },
+          { username },
+        ],
+      },
+    });
+
     if (existingUser) {
       return res.status(400).json({
-        status: 'fail',
-        message: 'User with this email or username already exists'
+        status: "fail",
+        message: "User already exists",
       });
     }
 
-    const newUser = await User.create({
-      username,
-      email,
-      password
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    const newUser = await prisma.user.create({
+      data: {
+        firstName,
+        lastName,
+        username,
+        email,
+        password: hashedPassword,
+      },
     });
 
-    const token = signToken(newUser._id);
+    const token = signToken(newUser.id);
 
     res.status(201).json({
-      status: 'success',
+      status: "success",
       token,
       data: {
         user: {
-          id: newUser._id,
+          id: newUser.id,
+          firstName: newUser.firstName,
+          lastName: newUser.lastName,
           username: newUser.username,
-          email: newUser.email
-        }
-      }
+          email: newUser.email,
+        },
+      },
     });
- 
   } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err.message
+    res.status(500).json({
+      status: "error",
+      message: err.message,
     });
   }
 };
 
-exports.login = async (req, res, next) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({
-        status: 'fail',
-        message: 'Please provide email and password'
+        status: "fail",
+        message: "Please provide email and password",
       });
     }
 
-    const user = await User.findOne({ email }).select('+password');
-    if (!user || !(await user.comparePassword(password))) {
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
       return res.status(401).json({
-        status: 'fail',
-        message: 'Incorrect email or password'
+        status: "fail",
+        message: "Incorrect email or password",
       });
     }
 
-    const token = signToken(user._id);
-    console.log(token)
+    const correct = await bcrypt.compare(
+      password,
+      user.password
+    );
+
+    if (!correct) {
+      return res.status(401).json({
+        status: "fail",
+        message: "Incorrect email or password",
+      });
+    }
+
+    const token = signToken(user.id);
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       token,
       data: {
         user: {
-          id: user._id,
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
           username: user.username,
-          email: user.email
-        }
-      }
+          email: user.email,
+        },
+      },
     });
   } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err.message
+    res.status(500).json({
+      status: "error",
+      message: err.message,
     });
   }
 };
 
-exports.protect = async (req, res, next) => {
+export const protect = async (req, res, next) => {
   try {
     let token;
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-      token = req.headers.authorization.split(' ')[1];
+
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
     }
 
     if (!token) {
       return res.status(401).json({
-        status: 'fail',
-        message: 'You are not logged in! Please log in to get access.'
+        status: "fail",
+        message: "You are not logged in.",
       });
     }
 
-    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET
+    );
 
-    const currentUser = await User.findById(decoded.id);
+    const currentUser = await prisma.user.findUnique({
+      where: {
+        id: decoded.id,
+      },
+    });
+
     if (!currentUser) {
       return res.status(401).json({
-        status: 'fail',
-        message: 'The user belonging to this token does no longer exist.'
+        status: "fail",
+        message: "User no longer exists.",
       });
     }
 
     req.user = currentUser;
+
     next();
   } catch (err) {
-    res.status(401).json({
-      status: 'fail',
-      message: err.message
+    return res.status(401).json({
+      status: "fail",
+      message: err.message,
     });
   }
 };
-
- 

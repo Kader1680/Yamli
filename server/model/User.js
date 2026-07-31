@@ -15,11 +15,11 @@
     password: {
       type: String,
       required: [true, 'Password is required'],
-      minlength: 6,
+      minlength: 4,
       select: false  
     }
   });
-
+              
   
   userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();

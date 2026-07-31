@@ -1,8 +1,8 @@
 <template>
   <div class="max-w-7xl mx-auto md:mt-6 px-4">
     <div class="bg-white rounded-2xl shadow-xl border border-gray-200 flex overflow-hidden h-[85vh]">
-      
-      <aside 
+
+      <aside
         class="w-full md:w-80 border-r border-gray-100 flex flex-col bg-gray-50/30"
         :class="{ 'hidden md:flex': selectedFriend }"
       >
@@ -12,9 +12,9 @@
             Messages
           </h2>
           <div class="mt-4 relative">
-            <input 
-              type="text" 
-              placeholder="Search friends..." 
+            <input
+              type="text"
+              placeholder="Search friends..."
               class="w-full pl-10 pr-4 py-2 bg-gray-100 border-none rounded-xl text-sm focus:ring-2 focus:ring-[#004182]/20"
             />
             <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
@@ -23,16 +23,16 @@
 
         <div class="flex-1 overflow-y-auto">
           <ul class="p-2 space-y-1">
-            <li 
-              v-for="friend in friends" 
-              :key="friend._id" 
+            <li
+              v-for="friend in friends"
+              :key="friend._id"
               @click="selectFriend(friend)"
               class="flex items-center gap-4 p-3 rounded-xl cursor-pointer transition-all duration-200 group"
               :class="selectedFriend?._id === friend._id ? 'bg-white shadow-md' : 'hover:bg-white/60'"
             >
               <div class="relative">
-                <img 
-                  src="https://ui-avatars.com/api/?name=User&background=004182&color=fff" 
+                <img
+                  src="https://ui-avatars.com/api/?name=User&background=004182&color=fff"
                   class="w-12 h-12 rounded-full border-2"
                   :class="selectedFriend?._id === friend._id ? 'border-[#004182]' : 'border-transparent'"
                 />
@@ -50,7 +50,7 @@
         </div>
       </aside>
 
-      <main 
+      <main
         class="flex-1 flex flex-col bg-white"
         :class="{ 'hidden': !selectedFriend && isMobile, 'flex': selectedFriend }"
       >
@@ -76,16 +76,16 @@
           </div>
 
           <div class="flex-1 overflow-y-auto p-6 bg-[#f8f9fa] space-y-4 messages-container">
-            <div 
-              v-for="msg in messages" 
-              :key="msg._id || msg.createdAt" 
+            <div
+              v-for="msg in messages"
+              :key="msg._id || msg.createdAt"
               class="flex flex-col"
               :class="msg.senderId === userId ? 'items-end' : 'items-start'"
             >
-              <div 
+              <div
                 class="max-w-[75%] px-4 py-2.5 rounded-2xl text-sm shadow-sm"
-                :class="msg.senderId === userId 
-                  ? 'bg-[#004182] text-white rounded-tr-none' 
+                :class="msg.senderId === userId
+                  ? 'bg-[#004182] text-white rounded-tr-none'
                   : 'bg-white text-gray-800 border border-gray-100 rounded-tl-none'"
               >
                 {{ msg.message }}
@@ -101,13 +101,13 @@
               <button class="p-2 text-gray-400 hover:text-[#004182]">
                 <i class="fa-solid fa-paperclip"></i>
               </button>
-              <input 
-                v-model="newMessage" 
-                placeholder="Type a message..." 
+              <input
+                v-model="newMessage"
+                placeholder="Type a message..."
                 class="flex-1 bg-transparent border-none focus:ring-0 text-sm py-2"
-                @keyup.enter="handleSendMessage" 
+                @keyup.enter="handleSendMessage"
               />
-              <button 
+              <button
                 @click="handleSendMessage"
                 :disabled="!newMessage.trim()"
                 class="w-10 h-10 bg-[#004182] text-white rounded-xl flex items-center justify-center disabled:opacity-50 transition-transform active:scale-95"
@@ -197,7 +197,6 @@ const handleSendMessage = async () => {
   };
 
   try {
-    // Fixed URL: Changed port 5173 to 3000 and used template literal for ID
     const response = await axios.post(`http://localhost:3000/chat/${selectedFriend.value._id}`, messageData, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
