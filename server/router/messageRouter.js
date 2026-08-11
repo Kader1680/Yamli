@@ -1,10 +1,10 @@
 // messageRouter.js (Backend)
-const express = require('express');
+import express from 'express';
+import Chat from '../model/Chat.js';
+import User from '../model/User.js';
+import Friend from '../model/Friend.js';
+import { protect } from '../middlewares/auth.middmeware.js';
 const router = express.Router();
-const Chat = require('../model/Chat');
-const User = require('../model/User');
-const Friend = require('../model/Friend');
-const { protect } = require('../controller/authController');
 
 router.post('/chat/:friendId', protect, async (req, res) => {
   try {
@@ -66,15 +66,15 @@ router.get('/chat/:friendId', protect, async (req, res) => {
 });
 
 
-router.get("/chat", protect, async (req, res) => {
+router.get('/chat', protect, async (req, res) => {
   try {
-    console.log("Fetching users for request by user:", req.user?._id);
+    console.log('Fetching users for request by user:', req.user?._id);
     const users = await User.find({ _id: { $ne: req.user._id } }).select('-password');
     res.json(users);
   } catch (err) {
-    console.error("Error fetching users from DB:", err.message);
+    console.error('Error fetching users from DB:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
 
-module.exports = router;
+export default router;

@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen flex items-center justify-center bg-gray-50 px-6 py-12">
     <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl shadow-blue-900/10 p-8 md:p-10 border border-gray-100">
-      
+
       <div class="text-center mb-10">
         <div class="inline-flex items-center justify-center w-16 h-16 bg-[#004182] rounded-2xl mb-4 shadow-lg shadow-blue-700/30">
           <i class="fa-solid fa-bolt-lightning text-white text-3xl"></i>
@@ -10,8 +10,8 @@
         <p class="text-gray-500 mt-2 font-medium">Please enter your details to login</p>
       </div>
 
-      <div 
-        v-if="errorMessage" 
+      <div
+        v-if="errorMessage"
         class="mb-6 flex items-center gap-3 bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-xl text-sm animate-shake"
       >
         <i class="fa-solid fa-circle-exclamation"></i>
@@ -19,19 +19,19 @@
       </div>
 
       <form @submit.prevent="handleSubmit" class="space-y-5">
-        
+
         <div class="space-y-1">
           <label for="email" class="text-xs font-bold text-gray-500 uppercase ml-1">Email Address</label>
           <div class="relative group">
             <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400 group-focus-within:text-[#004182] transition-colors">
               <i class="fa-solid fa-envelope"></i>
             </span>
-            <input 
-              v-model="email" 
-              type="email" 
-              id="email" 
+            <input
+              v-model="email"
+              type="email"
+              id="email"
               placeholder="name@company.com"
-              required 
+              required
               class="custom-login-input pl-11"
             />
           </div>
@@ -46,20 +46,20 @@
             <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400 group-focus-within:text-[#004182] transition-colors">
               <i class="fa-solid fa-lock"></i>
             </span>
-            <input 
-              v-model="password" 
-              type="password" 
-              id="password" 
+            <input
+              v-model="password"
+              type="password"
+              id="password"
               placeholder="••••••••"
-              required 
+              required
               class="custom-login-input pl-11"
             />
           </div>
         </div>
 
         <div class="pt-2">
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             class="w-full bg-[#004182] hover:bg-[#003366] text-white py-4 rounded-2xl font-black shadow-lg shadow-blue-900/20 transition-all active:scale-95 flex items-center justify-center gap-2"
           >
             <span>Sign In to Account</span>
@@ -69,7 +69,7 @@
       </form>
 
       <p class="mt-8 text-center text-gray-500 text-sm font-medium">
-        Don't have an account? 
+        Don't have an account?
         <router-link to="/register" class="text-[#004182] font-black hover:underline ml-1">
           Create one now
         </router-link>
@@ -94,6 +94,8 @@ const handleSubmit = async () => {
     const res = await axios.post('http://localhost:3000/login', {
       email: email.value,
       password: password.value
+    }, {
+      withCredentials: true,
     })
 
     if (res.data.token) {

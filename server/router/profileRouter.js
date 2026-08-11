@@ -1,9 +1,8 @@
-const express = require('express');
+import express from 'express';
+import Profile from '../model/Profile.js';
+import User from '../model/User.js';
+import multer from 'multer';
 const router = express.Router();
-const Profile = require('../model/Profile');
-const User = require('../model/User');
-
-const multer = require('multer');
 
 // Get profile by user ID
 router.get("/profil/:id_user", async (req, res) => {
@@ -108,7 +107,7 @@ router.post(
 
 
 // Update profile by ID
-router.put("/profil/:id_profile", async (req, res) => {
+router.put('/profil/:id_profile', async (req, res) => {
     try {
         const id_profile = req.params.id_profile;
         const updateData = req.body;
@@ -120,14 +119,14 @@ router.put("/profil/:id_profile", async (req, res) => {
         );
 
         if (!updatedProfile) {
-            return res.status(404).json({ message: "Profile not found" });
+            return res.status(404).json({ message: 'Profile not found' });
         }
 
         res.json(updatedProfile);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 });
 
-module.exports = router;
+export default router;

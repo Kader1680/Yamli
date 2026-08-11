@@ -1,30 +1,22 @@
-require('dotenv').config();
-
-const http = require('http');
-const express = require('express');
-// const { Server } = require('socket.io');
-const cors = require('cors');
-const authRoutes = require('./router/authRouter');
-// const messageRouter = require('./router/messageRouter');
-// const profileRouter = require('./router/profileRouter');
-// const postRouter = require('./router/postRouter');
-// connectDB();
-const path = require('path');
+import 'dotenv/config';
+import http from 'http';
+import express from 'express';
+// import { Server } from 'socket.io';
+import cors from 'cors';
+import authRoutes from './router/auth.router.js';
+import cookieParser from 'cookie-parser';
+import path from 'path';
 
 const app = express();
 const server = http.createServer(app);
 
+app.use(cookieParser());
 app.use(cors({
   origin: ['http://localhost:5173', 'http://localhost:5174'],
-  credentials: true             
+  credentials: true,
 }));
- 
+
 app.use(express.json());
-
- 
-const { protect } = require('./controller/authController');
-
-
 
 // Routes
 app.use('/', authRoutes);

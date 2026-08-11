@@ -1,1 +1,0 @@
-exports.protect = require('../controllers/authController').protect; 
