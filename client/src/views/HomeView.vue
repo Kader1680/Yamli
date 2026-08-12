@@ -41,18 +41,22 @@
         <!-- Create Post -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
           <div class="flex gap-4">
-
+ 
             <div
-              class="w-10 h-10 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden"
+              class="w-10 h-10 flex rounded-full bg-gray-200 flex-shrink-0  "
             >
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/3840px-User-avatar.svg.png"
                 class="w-full h-full object-cover"
                 alt="User avatar"
               />
-            </div>
 
-            <div class="flex-1">
+                
+            </div> <br> 
+
+
+
+            <div class="">
               <textarea
                 v-model="content"
                 placeholder="What's on your mind?"
@@ -111,8 +115,10 @@
               </div>
 
               <div>
-                <h3 class="font-bold text-gray-900 leading-tight">
-                  {{ getUsername(post) }}
+                <h3 class="font-bold text-blue-900 leading-tight">
+                  <a  :href="`/profil/${post.user.id}`" class="hover:underline">
+                    {{ post.user.firstName }} {{ post.user.lastName }}
+                  </a>
                 </h3>
 
                 <span class="text-xs text-gray-500">
@@ -399,15 +405,6 @@ const likePost = async (postId) => {
 };
 
 
-const getUsername = (post) => {
-
-  return (
-    post.user?.username ||
-    post.username ||
-    user.value?.username ||
-    "User"
-  );
-};
 
 const formatDate = (date) => {
   if (!date) {

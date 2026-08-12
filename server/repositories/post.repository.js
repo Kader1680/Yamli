@@ -10,9 +10,21 @@ export const createPost = async ({ content, userId }) => {
     });
 };
 
-export const findAllPosts = async () => {
-    return prisma.post.findMany();
-}
+export const findAllPosts = async (username) => {
+    return prisma.post.findMany({
+        where: username 
+            ? {
+                user: {
+                    username: String(username),
+                },
+            }
+            : {}, 
+
+        include: {
+            user: true, // Includes user details in the response
+        },
+    });
+};
 
 export const findPostById = async (postId) => {
     return prisma.post.findUnique({
@@ -39,7 +51,7 @@ export const updatePost = async (postId, data) => {
 export const deletePost = async (postId) => {
     return prisma.post.delete({
         where: {
-            id: postId
+            id: Number(postId)
         }
     });
 }   

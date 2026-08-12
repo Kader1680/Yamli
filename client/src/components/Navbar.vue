@@ -52,7 +52,7 @@
           <li><router-link to="/login" class="text-white hover:text-[#00bfff] px-4 font-bold">Login</router-link></li>
           <li>
             <router-link to="/register" class="bg-[#00bfff] text-[#004182] px-6 py-2 rounded-xl font-black shadow-lg hover:bg-white transition-all">
-              Join Free
+                Register
             </router-link>
           </li>
         </template>

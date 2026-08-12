@@ -19,9 +19,9 @@ const router = express.Router();
 
 // const upload = multer({ storage });
  router.post('/', protect, postController.createPost);
- router.get('/', postController.findAllPosts);
- router.get('/api/post/:id', protect, postController.findPostsByUserId);
- router.put('/api/post/:id', protect, postController.updatePost);
- router.delete('/api/post/:id', protect, postController.deletePost);
+ router.get('/',  postController.findAllPosts);
+ router.get('/:id', protect, postController.findPostsByUserId);
+ router.put('/:id', protect, postController.updatePost);
+ router.delete('/:id', protect, postController.deletePost);
  
 export default router;
