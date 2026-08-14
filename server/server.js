@@ -21,17 +21,6 @@ app.use(express.json());
 // Routes
 app.use('/', authRoutes);
 
-// app.use('/', messageRouter);
-
-
-// app.use('/', postRouter);
- 
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-
-// app.use('/', profileRouter);
-
-
 import profileRoutes from "./router/profile.router.js";
 
 app.use("/api/profile", profileRoutes);

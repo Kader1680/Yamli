@@ -141,7 +141,6 @@ const logout = () => {
   transform: translateY(-100%);
 }
 
-/* Fix for smooth scrolling/sticky */
 nav {
   backdrop-filter: blur(10px);
 }

@@ -14,20 +14,20 @@ export const getMyProfile = async (userId) => {
     return profile;
 };
 
-export const getProfileByUsername = async (username) => {
-    const profile =
-        await profileRepository.findProfileByUsername(
-            username
-        );
+// export const getProfileByUsername = async (username) => {
+//     const profile =
+//         await profileRepository.findProfileByUsername(
+//             username
+//         );
 
-    if (!profile) {
-        const error = new Error("User not found");
-        error.statusCode = 404;
-        throw error;
-    }
+//     if (!profile) {
+//         const error = new Error("User not found");
+//         error.statusCode = 404;
+//         throw error;
+//     }
 
-    return profile;
-};
+//     return profile;
+// };
 
 export const updateProfile = async (userId, data) => {
 
@@ -49,3 +49,17 @@ export const updateProfile = async (userId, data) => {
         cleanData
     );
 };
+
+export const findAllPostUser = async (userId) => {
+
+    return profileRepository.findAllPostUser(userId);
+};
+
+
+export const deleteProfile = async (userId) => {
+
+    return profileRepository.deleteProfile(userId);
+};
+
+
+

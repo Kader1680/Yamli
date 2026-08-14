@@ -2,8 +2,9 @@ import express from "express";
 
 import {
     getMyProfile,
-    getProfile,
     updateProfile,
+    deleteProfile,  
+    findAllPostUser
 } from "../controller/profile.controller.js";
 
 import {
@@ -15,18 +16,37 @@ const router = express.Router();
 router.get(
     "/me",
     protect,
-    getMyProfile
+    getMyProfile,
+    findAllPostUser,
+
+
 );
 
 router.patch(
     "/me",
     protect,
-    updateProfile
+    updateProfile,
+    deleteProfile
+
 );
 
 router.get(
     "/:username",
-    getProfile
+    protect,
+    findAllPostUser
 );
 
+router.get(
+    "/allposts",
+    protect,
+    findAllPostUser
+);
+router.delete(
+    "/delete/:id",
+    protect,
+    deleteProfile
+
+);
+
+ 
 export default router; 

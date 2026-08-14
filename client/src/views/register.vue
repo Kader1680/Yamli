@@ -196,8 +196,8 @@ const handleSubmit = async () => {
       }
     );
 
-    if (response.data.token) {
-      authStore.setAuth(response.data.token, response.data.user);
+    if (response.data) {
+      // authStore.setAuth(response.data.token, response.data.user);
       router.push("/");
     }
   } catch (error) {
