@@ -169,15 +169,16 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
+import { useAuthStore } from "../store/auth";
 
 const router = useRouter();
+const authStore = useAuthStore();
 
 const firstName = ref("");
 const lastName = ref("");
 const username = ref("");
 const email = ref("");
 const password = ref("");
-
 const errorMessage = ref("");
 
 const handleSubmit = async () => {
@@ -195,13 +196,13 @@ const handleSubmit = async () => {
       }
     );
 
-    if (response.data.status === "success") {
+    if (response.data.token) {
+      authStore.setAuth(response.data.token, response.data.user);
       router.push("/");
     }
   } catch (error) {
     errorMessage.value =
-      error.response?.data?.message ||
-      "Registration failed.";
+      error.response?.data?.message || "Registration failed.";
   }
 };
 </script>

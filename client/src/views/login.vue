@@ -82,6 +82,9 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import { useAuthStore } from "../store/auth";
+const authStore = useAuthStore();
+
 
 const email = ref('')
 const password = ref('')
@@ -90,7 +93,7 @@ const errorMessage = ref('')
 
 const handleSubmit = async () => {
   try {
-    errorMessage.value = '' // Reset error
+    errorMessage.value = ''
     const res = await axios.post('http://localhost:3000/login', {
       email: email.value,
       password: password.value
@@ -99,8 +102,7 @@ const handleSubmit = async () => {
     })
 
     if (res.data.token) {
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('user', JSON.stringify(res.data.data.user));
+      authStore.setAuth(res.data.token, res.data.data.user) // use the store, not localStorage directly
       router.push('/')
     }
   } catch (err) {

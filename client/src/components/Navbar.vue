@@ -92,26 +92,19 @@
     </div>
   </nav>
 </template>
-
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import axios from "axios";
+import { useAuthStore } from "../store/auth"; // ⚠️ match your real path exactly
 
 const router = useRouter();
-const defaultProfile = "https://ui-avatars.com/api/?background=00bfff&color=004182&name=User";
+const authStore = useAuthStore();
 
-const user = ref(JSON.parse(localStorage.getItem("user")) || {});
-const profile = ref({});
 const menuOpen = ref(false);
 
-import { provide } from "vue";
-
-
-
-provide("username", user.value?.username);
-
-
+const isAuthenticated = computed(() => authStore.isAuthenticated);
+const user = computed(() => authStore.user);
+const userId = computed(() => user.value?._id || user.value?.id || "");
 
 const navLinks = [
   { name: 'Home', path: '/', icon: 'fa-solid fa-house' },
@@ -121,23 +114,11 @@ const navLinks = [
 ];
 
 const toggleMenu = () => { menuOpen.value = !menuOpen.value; };
-const userId = computed(() => user.value._id || user.value.id || "");
-const isAuthenticated = computed(() => !!localStorage.getItem("token"));
 
 const logout = () => {
-  localStorage.clear();
+  authStore.logout();
   router.push("/login");
 };
-
-onMounted(async () => {
-  if (!userId.value) return;
-  try {
-    const profileRes = await axios.get(`http://localhost:3000/profil/${userId.value}`);
-    profile.value = profileRes.data || {};
-  } catch (err) {
-    console.error("Nav Load Error:", err);
-  }
-});
 </script>
 
 <style scoped>
