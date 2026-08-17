@@ -28,6 +28,10 @@ app.use("/api/profile", profileRoutes);
 import postRoutes from "./router/post.router.js";
 
 app.use("/api/post", postRoutes);
+
+import friendshipRoutes from "./router/friendship.router.js";
+
+app.use("/api/friendships", friendshipRoutes); 
 server.listen(3000, () => {
     console.log('Server running on http://localhost:3000');
 });
